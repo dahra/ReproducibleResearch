@@ -78,17 +78,18 @@ print("Your R data set is named: newdata")
 
 
 ##Create png file in new directory "class_ExplData"
-png("./class_ExplData/plot1.png", width = 480, height = 480)
+png("./class_ExplData/plot2.png", width = 480, height = 480)
 
 
-##Create histogram 
-hist(
-  x=newdata$gac,                            #x-axis values
-  main="Global Active Power",               #Graph Title
-  col = "red",                              #bar color = red
-  xlab="Global Active Power (kilowatts)",   #x-axis label
-  ylim=c(0,1200),                           #y-axis values
-  breaks=12                                 #total number x-axis bars
+##Create graph 
+par(mar=c(3.1,4.1,4.1,2.1))                 #graph margins
+
+plot(
+  y=newdata$gac,                            #x-axis data
+  x=newdata$date_n_time,                    #y-axis data
+  type="l",
+  ylab="Global Active Power (kilowatts)",   #x-axis label
+  xlab=""                                  #x-axis label is null
 )
 
 dev.off()

@@ -49,7 +49,17 @@ date_n_time <- as.POSIXct(strptime(combine_date_time, "%d/%m/%Y %H:%M:%S"))
 wkday <- weekdays(as.Date(subset_data$Date, "%d/%m/%Y"),abbreviate=TRUE)
 
 #Create new dataset/table with only rows and columns of interest
-newdata <- data.frame(day=wkday, date_n_time, gac=as.numeric(as.character(subset_data$Global_active_power)))
+newdata <- data.frame(
+                        day=wkday, 
+                        date_n_time, 
+                        gac=as.numeric(as.character(subset_data$Global_active_power)),
+                        grac=as.numeric(as.character(subset_data$Global_reactive_power)),
+                        vol=as.numeric(as.character(subset_data$Voltage)),
+                        gint=as.numeric(as.character(subset_data$Global_intensity)),
+                        sub1=as.numeric(as.character(subset_data$Sub_metering_1)),
+                        sub2=as.numeric(as.character(subset_data$Sub_metering_2)),
+                        sub3=as.numeric(as.character(subset_data$Sub_metering_3))
+                      )
 
 #TEST NEWDATA
 #nrow(newdata)  #should be 2880
@@ -78,18 +88,78 @@ print("Your R data set is named: newdata")
 
 
 ##Create png file in new directory "class_ExplData"
-png("./class_ExplData/plot1.png", width = 480, height = 480)
+png("./class_ExplData/plot4.png", width = 480, height = 480)
 
 
-##Create histogram 
-hist(
-  x=newdata$gac,                            #x-axis values
-  main="Global Active Power",               #Graph Title
-  col = "red",                              #bar color = red
-  xlab="Global Active Power (kilowatts)",   #x-axis label
-  ylim=c(0,1200),                           #y-axis values
-  breaks=12                                 #total number x-axis bars
+##Create graph 
+
+#parameters for graphs
+par(mfrow=c(2,2))                           #2 graphs per row and col
+
+#par(mfrow=c(2,2), 
+#    mar=c(3.1,4.1,2.1,2.1), 
+#    oma=c(0,0,2,0))
+
+with(newdata, {
+  
+##### plot - top left #####
+
+plot(
+  y=newdata$gac,                            #y-axis data
+  x=newdata$date_n_time,                    #x-axis data
+  type="l",
+  ylab="Global Active Power",   #y-axis label
+  xlab=""                                   #x-axis label is null
 )
+
+
+##### plot - top right #####
+plot(
+  y=newdata$vol,                            #y-axis data
+  x=newdata$date_n_time,                    #x-axis data
+  type="l",
+  ylab="Voltage",                           #y-axis label
+  xlab="datetime"                           #x-axis label 
+)
+
+##### plot - bottom left #####
+
+
+plot(
+  x=newdata$date_n_time,                    #x-axis data
+  y=newdata$sub1,                           #y-axis data
+  type="l",
+  ylab="Energy sub metering",               #y-axis label
+  xlab=""                                   #x-axis label is null
+)
+
+##Add 2 lines to graph
+lines(x=newdata$date_n_time,y=newdata$sub2,col="red")
+lines(x=newdata$date_n_time,y=newdata$sub3,col="blue")
+
+##Add legend to graph
+legend("topright",                                                    #position of legend
+       legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),  #legend labels
+       col=c("black","red","blue"),                                   #labels color codes
+       lty=1,                                                         #denotes the single continuous line
+       lwd=2                                                          #line width
+)
+
+
+
+##### plot - bottom right #####
+plot(
+  y=newdata$grac,                           #y-axis data
+  x=newdata$date_n_time,                    #x-axis data
+  type="l",
+  ylab="Global_reactive_power",             #y-axis label
+  xlab="datetime"                           #x-axis label 
+)
+
+##### close "with"  #####
+
+     }     
+)         #end of plots
 
 dev.off()
 
