@@ -1,3 +1,5 @@
+##Script filename:  run_analysis.R
+
 #The purpose of this project is to 
 #collect, work with, and clean a UCI HAR Dataset data set. 
 #The goal is to prepare tidy data that can be used for later analysis.

@@ -1,4 +1,7 @@
-Script Name:  run_analysis.R
+README.md
+
+
+Description of Script Name:  run_analysis.R
 Created: June 19, 2015
 
 -------------------
