@@ -1,4 +1,4 @@
-##Script filename:  run_analysis.R
+##filename:  run_analysis.R
 
 #The purpose of this project is to 
 #collect, work with, and clean a UCI HAR Dataset data set. 
